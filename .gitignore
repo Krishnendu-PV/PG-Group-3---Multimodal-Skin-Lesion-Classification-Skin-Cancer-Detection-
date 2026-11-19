@@ -8,3 +8,4 @@ __pycache__/
 # Dataset files
 Dataset/
 Image_EDA_and_Training/PAD-UFES Dataset/
+Image_EDA_and_Training/skin_lesion_artifacts/
