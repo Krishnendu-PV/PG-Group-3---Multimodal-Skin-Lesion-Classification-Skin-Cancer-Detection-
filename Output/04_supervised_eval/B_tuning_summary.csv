@@ -1,0 +1,8 @@
+,strategy,baseline_cv_f1,tuned_cv_f1,best_params
+LogReg,smote,0.6108970375703664,0.6137974100022,"{""clf__C"": 0.4205156450913872}"
+Perceptron,class_weight,0.5586453509114597,0.5676157075861552,"{""clf__estimator__alpha"": 0.0012563152773938662, ""clf__estimator__penalty"": ""l1""}"
+GaussianNB,smote,0.28740355416496793,0.30139856296902356,"{""clf__var_smoothing"": 7.072114131472235e-07}"
+DecisionTree,smote,0.5338733102189586,0.553204234966181,"{""clf__criterion"": ""entropy"", ""clf__max_depth"": null, ""clf__min_samples_leaf"": 2, ""clf__min_samples_split"": 22}"
+SVM_RBF,none,0.594834983010744,0.5683422407517033,"{""clf__C"": 11.290133559092672, ""clf__gamma"": 0.005762487216478602}"
+RandomForest,smote,0.5573757015099615,0.5775277107147115,"{""clf__max_depth"": 12, ""clf__max_features"": 0.5, ""clf__min_samples_leaf"": 6, ""clf__n_estimators"": 508}"
+HistGB,class_weight,0.5913834779029966,0.6178004362813863,"{""clf__l2_regularization"": 0.004207988669606638, ""clf__learning_rate"": 0.03051362379613698, ""clf__max_iter"": 187, ""clf__max_leaf_nodes"": 60, ""clf__min_samples_leaf"": 45}"
