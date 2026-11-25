@@ -2,6 +2,17 @@
 
 > F21DL – Data Mining & Machine Learning · Group Coursework · Heriot-Watt University Dubai
 
+**Coursework submission:** A ZIP archive containing the final project code is also uploaded on Canvas Group Files section as part of the coursework submission. The GitHub repository additionally preserves the group's individual development contributions and experimental work.
+
+## Repository Structure
+
+The repository is organised to keep the **final consolidated code** separate from the group's individual development contributions.
+
+- **`Final Code Files/`** - Contains the final, organised implementation of the project, including the tabular, image-based and fusion pipelines, along with the relevant outputs. This is the main folder to refer to for the final code and reported results.
+- **Other root-level code folders** - Contain the individual group members' contributions, draft implementations, exploratory notebooks and experimental work developed throughout the project. These have been retained to document the group's work and development process. It's kept for reference and isn't needed to reproduce the results.
+
+This structure keeps the final implementation clearly identifiable while preserving the contributions of all group members.
+
 ## Project Overview
 
 This project investigates machine-learning approaches for classifying skin lesions into **six diagnostic categories** using two complementary data modalities: **clinical images** and **patient/lesion metadata**.
@@ -115,23 +126,50 @@ Models were selected by cross-validation and evaluated once on a held-out test f
 
 Full methodology, results and discussion are in the project report.
 
-## Code Organisation
-
-The code is split into two folders:
-
-- **`final/`** has the complete, cleaned pipeline, covering every step from EDA through tabular modelling, image training and fusion. **Start here.** All results reported above come from this code.
-- **`experimental/`** has earlier drafts, exploratory notebooks and experiments tried during development. It's kept for reference and isn't needed to reproduce the results.
-
-## How to Run
-
-1. Clone the repo and download PAD-UFES-20 from Kaggle.
-2. Install the dependencies: `pandas numpy scikit-learn imbalanced-learn tensorflow opencv-python matplotlib seaborn`
-3. Run the notebooks in the `final/` folder in order: **EDA → tabular → image training → fusion**.
 
 ## Dataset Sources and References
 
 - Original PAD-UFES-20 dataset paper: https://www.sciencedirect.com/science/article/pii/S235234092031115X
 - Dataset on Kaggle: https://www.kaggle.com/datasets/mahdavi1202/skin-cancer/data
+
+## Dataset Download and Setup
+
+The PAD-UFES-20 dataset is publicly available for download:
+
+- [Download PAD-UFES-20 from Kaggle](https://www.kaggle.com/datasets/mahdavi1202/skin-cancer/data)
+
+**Note:** The complete dataset has not been uploaded to this repository due to its large size. Users must download and extract the dataset before running the notebooks.
+
+After downloading, place the dataset in the corresponding data directory expected by the notebooks in each of the following folders:
+
+- `Final Code Files/Tabular_src-code/` – For tabular/clinical metadata experiments.
+- `Final Code Files/Image_EDA_and_Training/` – For image-based experiments.
+- `Final Code Files/fusion/` – For multimodal fusion experiments, which require both images and clinical metadata.
+
+Ensure that the dataset directory and file paths match those specified in the respective notebooks or configuration files.
+
+## How to Run
+
+1. Clone the repository and download the PAD-UFES-20 dataset using the link provided above.
+2. Extract the dataset and place the required files in the corresponding directories, as described in the Dataset Download and Setup section.
+3. Install the required dependencies:
+
+   `pandas numpy scikit-learn imbalanced-learn tensorflow opencv-python matplotlib seaborn`
+
+4. Navigate to `Final Code Files/` and run the notebooks in the relevant subfolder:
+
+   - **Tabular (`Tabular_src-code/`):** Run the clinical metadata EDA and preprocessing notebooks, followed by the tabular modelling experiments.
+   - **Image (`Image_EDA_and_Training/`):** Run the image EDA notebook, followed by image preprocessing and training.
+   - **Fusion (`fusion/`):** Run the multimodal fusion notebooks after preparing the image and clinical data.
+
+Refer to the individual notebooks for any additional execution instructions or data-path configuration.
+
+## Outputs and Model Artefacts
+
+- **Tabular:** Experiment outputs are available in the `Output/` folder.
+- **Image-based and multimodal:** The notebooks save their outputs and trained model artefacts in the respective artifacts folders within their project directories. These files are not included in the GitHub repository due to their size. 
+- The image and fusion notebooks contain the code required to train the models and generate the corresponding artefacts.
+
 
 ## Team — Dubai PG Group 3
 
