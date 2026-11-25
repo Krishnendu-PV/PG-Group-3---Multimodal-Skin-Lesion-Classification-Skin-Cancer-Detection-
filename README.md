@@ -1,145 +1,138 @@
-# PG-Group-3---Multimodal-Skin-Lesion-Classification-Skin-Cancer-Detection-
+# PG-Group-3 — Multimodal Skin Lesion Classification (Skin Cancer Detection)
+
+> F21DL – Data Mining & Machine Learning · Group Coursework · Heriot-Watt University Dubai
 
 ## Project Overview
 
-This project investigates machine-learning approaches for classifying
-skin lesions into six diagnostic categories using two complementary data
-modalities: clinical images and patient/lesion metadata.
+This project investigates machine-learning approaches for classifying skin lesions into **six diagnostic categories** using two complementary data modalities: **clinical images** and **patient/lesion metadata**.
 
-Using the **PAD-UFES-20** dataset, we aim to compare models trained on
-clinical metadata alone, models trained on lesion images alone, and a
-multimodal approach that combines information from both.
+Using the **PAD-UFES-20** dataset, we compare models trained on clinical metadata alone, models trained on lesion images alone, and a multimodal approach that combines both.
 
-The project is being carried out as part of the **F21DL -- Data Mining &
-Machine Learning** coursework.
+**Key finding:** late fusion of the image and clinical models gave the best results (macro-F1 **0.749**, vs. 0.647 image-only and 0.661 clinical-only).
 
 ## Aim
 
-To develop and evaluate machine-learning approaches for classifying skin
-lesions using clinical patient/lesion information and
-smartphone-captured lesion images.
+To develop and evaluate machine-learning approaches for classifying skin lesions using clinical patient/lesion information and smartphone-captured lesion images.
 
 ## Motivation
 
-Early and accurate identification of suspicious skin lesions can support
-clinical decision-making. Smartphone-captured clinical images also
-reflect a more realistic image-acquisition setting than images obtained
-exclusively under controlled dermoscopic conditions.
+Early and accurate identification of suspicious skin lesions can support clinical decision-making. Smartphone-captured clinical images are also closer to real-world image acquisition than images taken only under controlled dermoscopic conditions.
 
-This project explores whether visual information, clinical context, or a
-combination of both provides the most useful information for automated
-skin-lesion classification.
+This project explores whether visual information, clinical context, or a combination of both gives the most useful information for automated skin-lesion classification.
 
 ## Research Questions
 
-1.  How effectively can classical machine-learning models classify
-    lesions using clinical metadata?
-2.  How effectively can CNN-based models classify lesions using images?
-3.  Does combining clinical metadata and image features improve
-    classification performance compared with either modality
-    independently?
+| | Question | Outcome |
+|---|---|---|
+| RQ1 | How effectively can classical ML models classify lesions using clinical metadata? | Partly supported: good on common classes, weak on rare malignant ones |
+| RQ2 | How effectively can CNN-based models classify lesions using images? | Supported for pretrained (transfer-learning) models |
+| RQ3 | Does combining clinical metadata and image features improve performance compared with either modality alone? | Supported for late fusion |
 
-**Hypothesis:** Combining image information with clinical metadata may
-provide complementary information and improve classification performance
-compared with using a single modality.
+**Hypothesis:** combining image information with clinical metadata provides complementary information and improves classification performance compared with a single modality.
 
 ## Dataset
 
 ### PAD-UFES-20
 
-The project uses the publicly available **PAD-UFES-20** dataset, which
-links smartphone-captured clinical images of skin lesions with
-associated patient and lesion metadata.
+A publicly available dataset linking smartphone-captured clinical images of skin lesions with patient and lesion metadata.
 
-  Dataset characteristic     Description
-  ------------------------ -------------
-  Patients                         1,373
-  Unique lesions                   1,641
-  Clinical images                  2,298
-  Diagnostic classes                   6
-  Metadata attributes                 26
+| Characteristic | Value |
+|---|---|
+| Patients | 1,373 |
+| Unique lesions | 1,641 |
+| Clinical images | 2,298 |
+| Diagnostic classes | 6 |
+| Metadata attributes | 26 |
 
-The six diagnostic categories are:
+| Class | Diagnosis | Images |
+|---|---|---|
+| BCC | Basal cell carcinoma | 845 |
+| ACK | Actinic keratosis | 730 |
+| NEV | Nevus | 244 |
+| SEK | Seborrheic keratosis | 235 |
+| SCC | Squamous cell carcinoma | 192 |
+| MEL | Melanoma | 52 |
 
--   **ACK** -- Actinic keratosis
--   **BCC** -- Basal cell carcinoma
--   **MEL** -- Melanoma
--   **NEV** -- Nevus
--   **SCC** -- Squamous cell carcinoma
--   **SEK** -- Seborrheic keratosis
-
-The metadata includes clinical variables such as age, sex, Fitzpatrick
-skin type, lesion location, lesion diameter and reported symptoms. The
-dataset also contains identifiers and diagnostic information.
+The metadata includes clinical variables such as age, sex, Fitzpatrick skin type, lesion location, lesion diameter and reported symptoms, plus identifiers and diagnostic information.
 
 ### Why PAD-UFES-20?
 
--   **Real-world clinical images:** Smartphone-captured images include
-    variation in lighting, resolution and image quality.
--   **Complementary data modalities:** Clinical images are associated
-    with patient/lesion metadata, enabling comparisons across
-    modalities.
--   **Clinically relevant categories:** The dataset includes six
-    diagnostic classes, covering both cancer and non-cancer lesion
-    categories.
--   **Research suitability:** Previous work has explored CNN-based
-    classification, clinical metadata and image--metadata fusion using
-    PAD-UFES-20.
--   **Class imbalance:** The diagnostic categories are not equally
-    represented, making class-wise evaluation important.
+- **Real-world clinical images:** smartphone photos vary in lighting, resolution and image quality.
+- **Complementary data modalities:** each image is linked to patient/lesion metadata, so modalities can be compared and combined.
+- **Clinically relevant categories:** six classes covering both cancer and non-cancer lesions.
+- **Research suitability:** previous work has explored CNNs, clinical metadata and image–metadata fusion on this dataset.
+- **Class imbalance:** classes are unequally represented (~16:1), so class-wise evaluation is important.
 
 ## Project Approach
 
-The project is organised around three experiments:
+**Data preparation**
+- Removed duplicate and conflicting images and repeated lesion rows.
+- Dropped leakage columns (identifiers, biopsy status).
+- Used **patient-level splits** (`StratifiedGroupKFold`) so no patient appears in both train and test.
 
 ### 1. Metadata-only classification
+Clinical metadata was used to train:
+- **Supervised models:** logistic regression, SVM, random forest, decision tree, gradient boosting, perceptron and Naïve Bayes.
+- **Exploratory and probabilistic models:** k-means and GMM clustering, and probabilistic classifiers.
 
-Clinical metadata will be prepared and used to train machine-learning
-models. This experiment will investigate how effectively patient and
-lesion characteristics can distinguish between the diagnostic
-categories. At least three machine-learning algorithms will be implemented 
-and compared using appropriate classification metrics.
+Imbalance strategies compared: class weighting and SMOTE-NC.
 
 ### 2. Image-only classification
-
-Skin-lesion images will be preprocessed and used to train CNN-based
-image-classification models. Neural-network models will be implemented and 
-fine-tuned, with their performance assessed and compared against other 
-approaches to investigate the diagnostic information that can be learned 
-from visual appearance.
+- **Models:** a custom CNN, plus ImageNet-pretrained **ResNet50** and **EfficientNetB0** (frozen and fine-tuned), in TensorFlow/Keras.
+- **Preprocessing:** images resized to 224×224 and augmented.
+- **Imbalance handling:** class weighting, oversampling and focal loss were compared.
 
 ### 3. Image + metadata classification
+- **Late fusion:** a weighted average of the image and clinical model probabilities (image weight 0.4, chosen by cross-validation).
+- **Intermediate fusion:** a single network that combines image and tabular features.
 
-Image-derived features and clinical metadata features will be combined
-in a multimodal model. Its performance will be compared with the
-metadata-only and image-only experiments to investigate whether
-combining the two modalities provides additional predictive value.
+Both were compared against the single-modality models on the same patient split.
 
 ## Evaluation
 
-Model performance will be assessed using:
+Model performance was assessed using:
 
--   **Accuracy** -- overall proportion of correct predictions.
--   **Precision** -- how often predictions for a class are correct.
--   **Recall** -- how effectively the model identifies samples belonging
-    to a class.
--   **F1-score** -- the balance between precision and recall.
+- **Accuracy:** overall proportion of correct predictions.
+- **Precision:** how often predictions for a class are correct.
+- **Recall:** how effectively the model identifies samples of a class.
+- **F1-score:** the balance between precision and recall.
 
-Because the dataset is class-imbalanced, evaluation will consider
-class-wise performance in addition to overall accuracy.
+Because the dataset is class-imbalanced, **macro-F1** was the main metric, and class-wise performance was examined alongside overall accuracy. Balanced accuracy, MCC and ROC-AUC were also reported.
+
+Models were selected by cross-validation and evaluated once on a held-out test fold. A patient-level bootstrap was used to test significance.
+
+## Results (held-out test set, 468 images)
+
+| Model | Accuracy | Macro-F1 | ROC-AUC |
+|---|---|---|---|
+| Clinical only (Logistic Regression) | 0.752 | 0.661 | 0.919 |
+| Image only (EfficientNetB0) | 0.722 | 0.647 | 0.907 |
+| **Late fusion** | **0.803** | **0.749** | **0.945** |
+| Intermediate fusion | 0.667 | 0.651 | 0.916 |
+
+- Late fusion's gain over the image-only model is statistically significant.
+- **SCC** remains the hardest class (often confused with BCC), and melanoma results rest on very few test cases, so the models are **not ready for clinical use**.
+
+Full methodology, results and discussion are in the project report.
+
+## Code Organisation
+
+The code is split into two folders:
+
+- **`final/`** has the complete, cleaned pipeline, covering every step from EDA through tabular modelling, image training and fusion. **Start here.** All results reported above come from this code.
+- **`experimental/`** has earlier drafts, exploratory notebooks and experiments tried during development. It's kept for reference and isn't needed to reproduce the results.
+
+## How to Run
+
+1. Clone the repo and download PAD-UFES-20 from Kaggle.
+2. Install the dependencies: `pandas numpy scikit-learn imbalanced-learn tensorflow opencv-python matplotlib seaborn`
+3. Run the notebooks in the `final/` folder in order: **EDA → tabular → image training → fusion**.
 
 ## Dataset Sources and References
 
--   **Original PAD-UFES-20 dataset paper:**\
-    https://www.sciencedirect.com/science/article/pii/S235234092031115X
--   **Dataset on Kaggle:**\
-    https://www.kaggle.com/datasets/mahdavi1202/skin-cancer/data
+- Original PAD-UFES-20 dataset paper: https://www.sciencedirect.com/science/article/pii/S235234092031115X
+- Dataset on Kaggle: https://www.kaggle.com/datasets/mahdavi1202/skin-cancer/data
 
-## Project Status
+## Team — Dubai PG Group 3
 
-This repository is under development. Dataset exploration and the
-modelling experiments are being carried out as part of the coursework.
-
-Implementation details, preprocessing steps, model architectures,
-training configurations, experimental results and conclusions will be
-added to this README as the project progresses.
+Krishnendu Palotu Veetil · Rekha Rajan · Husna Ahmed · Hasna Mohammad Sayed Ahmed · Saima Zohra
